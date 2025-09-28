@@ -1,0 +1,162 @@
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  background: var(--surface-card);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--surface-border);
+  min-height: 4rem;
+}
+
+.player-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.play-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  
+  ::ng-deep .p-button {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    
+    .p-button-icon {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.player-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.progress-container {
+  width: 100%;
+  
+  .progress-slider {
+    width: 100%;
+    
+    ::ng-deep .p-slider {
+      background: var(--surface-300);
+      
+      .p-slider-range {
+        background: var(--primary-color);
+      }
+      
+      .p-slider-handle {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        width: 1rem;
+        height: 1rem;
+        margin-top: -0.375rem;
+        
+        &:focus {
+          box-shadow: 0 0 0 0.2rem var(--primary-color-text);
+        }
+      }
+    }
+  }
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  font-family: var(--font-family);
+}
+
+.volume-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+  
+  .volume-btn {
+    width: 2rem;
+    height: 2rem;
+    
+    ::ng-deep .p-button {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  
+  .volume-slider {
+    flex: 1;
+    
+    ::ng-deep .p-slider {
+      background: var(--surface-300);
+      
+      .p-slider-range {
+        background: var(--primary-color);
+      }
+      
+      .p-slider-handle {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        width: 0.75rem;
+        height: 0.75rem;
+        margin-top: -0.25rem;
+      }
+    }
+  }
+}
+
+.additional-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  
+  .control-btn {
+    width: 2rem;
+    height: 2rem;
+    
+    ::ng-deep .p-button {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .audio-player {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  
+  .player-main {
+    width: 100%;
+  }
+  
+  .volume-controls,
+  .additional-controls {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .volume-controls {
+    min-width: auto;
+    max-width: 200px;
+  }
+}
+
+// Loading state
+.play-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

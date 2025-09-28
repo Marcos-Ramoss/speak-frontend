@@ -1,0 +1,77 @@
+<div class="feed-container">
+  <!-- Feed Header -->
+  <div class="feed-header">
+    <h1 class="feed-title">
+      <i class="pi pi-home"></i>
+      Feed Principal
+    </h1>
+    <p-button 
+      icon="pi pi-refresh"
+      [text]="true"
+      [rounded]="true"
+      (onClick)="refreshFeed()"
+      [loading]="isLoading"
+      pTooltip="Atualizar feed"
+      class="refresh-btn">
+    </p-button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading && posts.length === 0" class="loading-container">
+    <p-progressSpinner 
+      strokeWidth="3"
+      animationDuration="1s">
+    </p-progressSpinner>
+    <p>Carregando posts...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && posts.length === 0" class="empty-state">
+    <div class="empty-icon">
+      <i class="pi pi-volume-up"></i>
+    </div>
+    <h3>Nenhum post encontrado</h3>
+    <p>Seja o primeiro a compartilhar um áudio!</p>
+    <p-button 
+      label="Criar Post"
+      icon="pi pi-plus"
+      (onClick)="refreshFeed()">
+    </p-button>
+  </div>
+
+  <!-- Posts List -->
+  <div *ngIf="posts.length > 0" class="posts-list">
+    <app-audio-post-card
+      *ngFor="let post of posts; trackBy: trackByPostId"
+      [post]="post"
+      [currentUserId]="currentUserId"
+      [showActions]="true"
+      [showMenu]="true"
+      (likeToggled)="onLikeToggled($event)"
+      (commentClicked)="onCommentClicked($event)"
+      (shareClicked)="onShareClicked($event)"
+      (editClicked)="onEditClicked($event)"
+      (deleteClicked)="onDeleteClicked($event)">
+    </app-audio-post-card>
+  </div>
+
+  <!-- Load More Button -->
+  <div *ngIf="posts.length > 0 && hasMorePosts" class="load-more-container">
+    <p-button 
+      label="Carregar mais posts"
+      icon="pi pi-angle-down"
+      [outlined]="true"
+      [loading]="isLoadingMore"
+      (onClick)="loadMorePosts()"
+      class="load-more-btn">
+    </p-button>
+  </div>
+
+  <!-- End of Feed -->
+  <div *ngIf="posts.length > 0 && !hasMorePosts" class="end-of-feed">
+    <div class="end-icon">
+      <i class="pi pi-check-circle"></i>
+    </div>
+    <p>Você viu todos os posts disponíveis!</p>
+  </div>
+</div>

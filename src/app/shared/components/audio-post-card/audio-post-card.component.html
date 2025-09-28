@@ -1,0 +1,115 @@
+<p-card class="post-card">
+  <!-- Header -->
+  <ng-template pTemplate="header">
+    <div class="post-header">
+      <div class="user-info">
+        <p-avatar 
+          [image]="post.usuario.urlAvatar" 
+          [label]="!post.usuario.urlAvatar ? post.usuario.nome.charAt(0).toUpperCase() : ''"
+          size="large"
+          shape="circle"
+          class="user-avatar">
+        </p-avatar>
+        
+        <div class="user-details">
+          <div class="user-names">
+            <span class="user-name">{{ post.usuario.nome }}</span>
+            <span class="user-username">@{{ post.usuario.nomeUsuario }}</span>
+          </div>
+          <span class="post-time">{{ formattedTime }}</span>
+        </div>
+      </div>
+      
+      <p-button 
+        *ngIf="showMenu"
+        icon="pi pi-ellipsis-v"
+        [text]="true"
+        [rounded]="true"
+        class="menu-btn"
+        (click)="menu.toggle($event)"
+        pTooltip="Mais opções">
+      </p-button>
+      
+      <p-menu #menu [model]="menuItems" [popup]="true"></p-menu>
+    </div>
+  </ng-template>
+  
+  <!-- Content -->
+  <ng-template pTemplate="content">
+    <!-- Post Text Content -->
+    <p *ngIf="post.conteudo" class="post-content">
+      {{ post.conteudo }}
+    </p>
+    
+    <!-- Audio Player -->
+    <div class="audio-section">
+      <app-audio-player 
+        [audioUrl]="audioUrl"
+        [showControls]="true">
+      </app-audio-player>
+      
+      <!-- Waveform Visualizer -->
+      <app-waveform-visualizer
+        [audioUrl]="audioUrl"
+        [width]="300"
+        [height]="60"
+        class="waveform">
+      </app-waveform-visualizer>
+    </div>
+    
+    <!-- Transcription -->
+    <div *ngIf="post.arquivoAudio.transcricao" class="transcription">
+      <div class="transcription-header">
+        <i class="pi pi-file-text"></i>
+        <span>Transcrição</span>
+      </div>
+      <p class="transcription-text">{{ post.arquivoAudio.transcricao }}</p>
+    </div>
+    
+    <!-- Voice Filter Badge -->
+    <div class="filter-badge" [class]="'filter-' + post.tipoFiltroVoz.toLowerCase()">
+      <i class="pi" [class]="post.tipoFiltroVoz === 'ROBOTICO' ? 'pi-cog' : 'pi-user'"></i>
+      <span>{{ post.tipoFiltroVoz === 'ROBOTICO' ? 'Voz Robótica' : 'Voz Natural' }}</span>
+    </div>
+  </ng-template>
+  
+  <!-- Footer -->
+  <ng-template pTemplate="footer" *ngIf="showActions">
+    <div class="post-actions">
+      <p-button 
+        [icon]="isLiked ? 'pi pi-heart-fill' : 'pi pi-heart'"
+        [text]="true"
+        [class]="'action-btn like-btn ' + (isLiked ? 'liked' : '')"
+        (onClick)="toggleLike()"
+        pTooltip="Curtir">
+        <span class="action-count">{{ formattedLikes }}</span>
+      </p-button>
+      
+      <p-button 
+        icon="pi pi-comment"
+        [text]="true"
+        class="action-btn comment-btn"
+        (onClick)="openComments()"
+        pTooltip="Comentar">
+        <span class="action-count">{{ formattedComments }}</span>
+      </p-button>
+      
+      <p-button 
+        icon="pi pi-refresh"
+        [text]="true"
+        class="action-btn share-btn"
+        (onClick)="sharePost()"
+        pTooltip="Compartilhar">
+        <span class="action-count">{{ formattedShares }}</span>
+      </p-button>
+      
+      <p-button 
+        icon="pi pi-share-alt"
+        [text]="true"
+        class="action-btn external-share-btn"
+        (onClick)="sharePost()"
+        pTooltip="Compartilhar externamente">
+      </p-button>
+    </div>
+  </ng-template>
+</p-card>

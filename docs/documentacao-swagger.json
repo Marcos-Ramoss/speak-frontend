@@ -1,0 +1,1193 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "VozSocial API",
+      "description": "API do VozSocial MVP - Rede social de áudio com IA",
+      "contact": {
+        "name": "Equipe VozSocial",
+        "email": "contato@vozsocial.com"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/licenses/MIT"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080/api",
+        "description": "Generated server url"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Usuários",
+        "description": "Operações relacionadas aos usuários do sistema"
+      },
+      {
+        "name": "Áudio",
+        "description": "Operações relacionadas ao processamento de áudio"
+      },
+      {
+        "name": "Posts",
+        "description": "Operações relacionadas aos posts de áudio"
+      }
+    ],
+    "paths": {
+      "/usuarios/{id}": {
+        "get": {
+          "tags": [
+            "Usuários"
+          ],
+          "summary": "Buscar usuário por ID",
+          "description": "Retorna os dados de um usuário específico",
+          "operationId": "buscarPorId",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsuarioDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Usuários"
+          ],
+          "summary": "Atualizar usuário",
+          "description": "Atualiza os dados de um usuário existente",
+          "operationId": "atualizarUsuario",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDto"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsuarioDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Usuários"
+          ],
+          "summary": "Desativar usuário",
+          "description": "Desativa um usuário do sistema",
+          "operationId": "desativarUsuario",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/posts/{id}": {
+        "get": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Buscar post por ID",
+          "description": "Retorna dados de um post específico",
+          "operationId": "buscarPorId_1",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do post",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PostAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Atualizar post",
+          "description": "Atualiza o conteúdo de um post existente",
+          "operationId": "atualizarPost",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do post",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            {
+              "name": "conteudo",
+              "in": "query",
+              "description": "Novo conteúdo",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PostAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Remover post",
+          "description": "Remove um post do sistema",
+          "operationId": "removerPost",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do post",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/usuarios": {
+        "get": {
+          "tags": [
+            "Usuários"
+          ],
+          "summary": "Listar usuários ativos",
+          "description": "Retorna lista de todos os usuários ativos do sistema",
+          "operationId": "listarUsuariosAtivos",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UsuarioDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Usuários"
+          ],
+          "summary": "Criar usuário",
+          "description": "Cria um novo usuário no sistema",
+          "operationId": "criarUsuario",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDto"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsuarioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/posts/{id}/curtir": {
+        "post": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Curtir/Descurtir post",
+          "description": "Alterna curtida em um post",
+          "operationId": "alternarCurtida",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do post",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            {
+              "name": "usuarioId",
+              "in": "query",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PostAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/posts/com-audio-base64": {
+        "post": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Criar post com áudio base64",
+          "description": "Cria novo post com áudio em formato base64",
+          "operationId": "criarPostComAudioBase64",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CriarPostRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PostAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/posts/com-arquivo": {
+        "post": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Criar post com arquivo",
+          "description": "Cria novo post fazendo upload de arquivo de áudio",
+          "operationId": "criarPostComArquivo",
+          "parameters": [
+            {
+              "name": "usuarioId",
+              "in": "query",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            {
+              "name": "conteudo",
+              "in": "query",
+              "description": "Conteúdo do post",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "tipoFiltroVoz",
+              "in": "query",
+              "description": "Tipo de filtro de voz",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "default": "NATURAL"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "arquivo"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "arquivo": {
+                      "type": "string",
+                      "description": "Arquivo de áudio",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PostAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/audio/upload": {
+        "post": {
+          "tags": [
+            "Áudio"
+          ],
+          "summary": "Upload de arquivo de áudio",
+          "description": "Faz upload de um arquivo de áudio via multipart",
+          "operationId": "uploadArquivo",
+          "parameters": [
+            {
+              "name": "usuarioId",
+              "in": "query",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "arquivo"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "arquivo": {
+                      "type": "string",
+                      "description": "Arquivo de áudio",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArquivoAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/audio/upload-base64": {
+        "post": {
+          "tags": [
+            "Áudio"
+          ],
+          "summary": "Upload de áudio base64",
+          "description": "Faz upload de áudio através de dados base64",
+          "operationId": "uploadAudioBase64",
+          "parameters": [
+            {
+              "name": "audioDataUri",
+              "in": "query",
+              "description": "Dados do áudio em base64",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "usuarioId",
+              "in": "query",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            {
+              "name": "nomeArquivo",
+              "in": "query",
+              "description": "Nome do arquivo",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArquivoAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/audio/transformar-voz": {
+        "post": {
+          "tags": [
+            "Áudio"
+          ],
+          "summary": "Transformar voz",
+          "description": "Transforma voz aplicando filtros (natural/robótico)",
+          "operationId": "transformarVoz",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransformacaoVozRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TransformacaoVozResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/audio/transcrever": {
+        "post": {
+          "tags": [
+            "Áudio"
+          ],
+          "summary": "Transcrever áudio",
+          "description": "Transcreve áudio usando Google AI",
+          "operationId": "transcreverAudio",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscricaoRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TranscricaoResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/usuarios/nome-usuario/{nomeUsuario}": {
+        "get": {
+          "tags": [
+            "Usuários"
+          ],
+          "summary": "Buscar usuário por nome de usuário",
+          "description": "Retorna os dados de um usuário pelo nome de usuário",
+          "operationId": "buscarPorNomeUsuario",
+          "parameters": [
+            {
+              "name": "nomeUsuario",
+              "in": "path",
+              "description": "Nome de usuário",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsuarioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/posts/usuario/{usuarioId}": {
+        "get": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Buscar posts por usuário",
+          "description": "Retorna posts de um usuário específico",
+          "operationId": "buscarPostsDoUsuario",
+          "parameters": [
+            {
+              "name": "usuarioId",
+              "in": "path",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            {
+              "name": "pagina",
+              "in": "query",
+              "description": "Número da página (0-based)",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "default": 0
+              }
+            },
+            {
+              "name": "tamanho",
+              "in": "query",
+              "description": "Tamanho da página",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "default": 10
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PagePostAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/posts/mais-curtidos": {
+        "get": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Buscar posts mais curtidos",
+          "description": "Retorna posts ordenados por número de curtidas",
+          "operationId": "buscarPostsMaisCurtidos",
+          "parameters": [
+            {
+              "name": "pagina",
+              "in": "query",
+              "description": "Número da página (0-based)",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "default": 0
+              }
+            },
+            {
+              "name": "tamanho",
+              "in": "query",
+              "description": "Tamanho da página",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "default": 10
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PagePostAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/posts/feed": {
+        "get": {
+          "tags": [
+            "Posts"
+          ],
+          "summary": "Buscar feed de posts",
+          "description": "Retorna feed principal com posts mais recentes",
+          "operationId": "buscarFeed",
+          "parameters": [
+            {
+              "name": "pagina",
+              "in": "query",
+              "description": "Número da página (0-based)",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "default": 0
+              }
+            },
+            {
+              "name": "tamanho",
+              "in": "query",
+              "description": "Tamanho da página",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "default": 10
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PagePostAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/audio/{id}": {
+        "get": {
+          "tags": [
+            "Áudio"
+          ],
+          "summary": "Buscar arquivo de áudio",
+          "description": "Retorna dados de um arquivo de áudio específico",
+          "operationId": "buscarArquivoPorId",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do arquivo de áudio",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArquivoAudioDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Áudio"
+          ],
+          "summary": "Remover arquivo de áudio",
+          "description": "Remove um arquivo de áudio do sistema",
+          "operationId": "removerArquivo",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do arquivo de áudio",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/audio/usuario/{usuarioId}": {
+        "get": {
+          "tags": [
+            "Áudio"
+          ],
+          "summary": "Listar arquivos por usuário",
+          "description": "Retorna lista de arquivos de áudio de um usuário",
+          "operationId": "listarArquivosPorUsuario",
+          "parameters": [
+            {
+              "name": "usuarioId",
+              "in": "path",
+              "description": "ID do usuário",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ArquivoAudioDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "UsuarioDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nomeUsuario": {
+              "type": "string"
+            },
+            "nome": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "urlAvatar": {
+              "type": "string"
+            },
+            "dicaAvatar": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean"
+            },
+            "criadoEm": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "atualizadoEm": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "description": "Dados do usuário a ser criado"
+        },
+        "ArquivoAudioDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "usuarioId": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nomeArquivoOriginal": {
+              "type": "string"
+            },
+            "caminhoArquivo": {
+              "type": "string"
+            },
+            "tamanhoArquivo": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "duracaoSegundos": {
+              "type": "number"
+            },
+            "tipoMime": {
+              "type": "string"
+            },
+            "transcricao": {
+              "type": "string"
+            },
+            "criadoEm": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "PostAudioDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "usuario": {
+              "$ref": "#/components/schemas/UsuarioDto"
+            },
+            "arquivoAudio": {
+              "$ref": "#/components/schemas/ArquivoAudioDto"
+            },
+            "conteudo": {
+              "type": "string"
+            },
+            "quantidadeCurtidas": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "quantidadeComentarios": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "quantidadeCompartilhamentos": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "processado": {
+              "type": "boolean"
+            },
+            "tipoFiltroVoz": {
+              "type": "string",
+              "enum": [
+                "NATURAL",
+                "ROBOTICO"
+              ]
+            },
+            "criadoEm": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "atualizadoEm": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "CriarPostRequest": {
+          "required": [
+            "usuarioId"
+          ],
+          "type": "object",
+          "properties": {
+            "usuarioId": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "conteudo": {
+              "type": "string"
+            },
+            "tipoFiltroVoz": {
+              "type": "string",
+              "enum": [
+                "NATURAL",
+                "ROBOTICO"
+              ]
+            },
+            "audioDataUri": {
+              "type": "string"
+            },
+            "nomeArquivo": {
+              "type": "string"
+            }
+          },
+          "description": "Dados do post com áudio base64"
+        },
+        "TransformacaoVozRequest": {
+          "required": [
+            "audioDataUri",
+            "tipoFiltro"
+          ],
+          "type": "object",
+          "properties": {
+            "audioDataUri": {
+              "type": "string"
+            },
+            "tipoFiltro": {
+              "type": "string",
+              "enum": [
+                "NATURAL",
+                "ROBOTICO"
+              ]
+            },
+            "transcricao": {
+              "type": "string"
+            }
+          },
+          "description": "Dados para transformação de voz"
+        },
+        "TransformacaoVozResponse": {
+          "type": "object",
+          "properties": {
+            "audioTransformadoDataUri": {
+              "type": "string"
+            },
+            "transcricao": {
+              "type": "string"
+            },
+            "sucesso": {
+              "type": "boolean"
+            },
+            "mensagem": {
+              "type": "string"
+            }
+          }
+        },
+        "TranscricaoRequest": {
+          "required": [
+            "audioDataUri"
+          ],
+          "type": "object",
+          "properties": {
+            "audioDataUri": {
+              "type": "string"
+            }
+          },
+          "description": "Dados para transcrição"
+        },
+        "TranscricaoResponse": {
+          "type": "object",
+          "properties": {
+            "transcricao": {
+              "type": "string"
+            },
+            "sucesso": {
+              "type": "boolean"
+            },
+            "mensagem": {
+              "type": "string"
+            }
+          }
+        },
+        "PagePostAudioDto": {
+          "type": "object",
+          "properties": {
+            "totalPages": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "totalElements": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "size": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "content": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PostAudioDto"
+              }
+            },
+            "number": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "sort": {
+              "$ref": "#/components/schemas/SortObject"
+            },
+            "pageable": {
+              "$ref": "#/components/schemas/PageableObject"
+            },
+            "first": {
+              "type": "boolean"
+            },
+            "last": {
+              "type": "boolean"
+            },
+            "numberOfElements": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "empty": {
+              "type": "boolean"
+            }
+          }
+        },
+        "PageableObject": {
+          "type": "object",
+          "properties": {
+            "offset": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "sort": {
+              "$ref": "#/components/schemas/SortObject"
+            },
+            "pageNumber": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "pageSize": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "paged": {
+              "type": "boolean"
+            },
+            "unpaged": {
+              "type": "boolean"
+            }
+          }
+        },
+        "SortObject": {
+          "type": "object",
+          "properties": {
+            "empty": {
+              "type": "boolean"
+            },
+            "sorted": {
+              "type": "boolean"
+            },
+            "unsorted": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }

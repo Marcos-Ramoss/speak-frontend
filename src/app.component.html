@@ -1,0 +1,30 @@
+<div class="app-container">
+  <!-- Header -->
+  <app-header></app-header>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <!-- Recording Dialog -->
+  <app-recorder-dialog 
+    [visible]="isRecording"
+    (visibleChange)="onRecordingDialogChange($event)"
+    (postCreated)="onPostCreated($event)">
+  </app-recorder-dialog>
+  
+  <!-- Floating Action Button -->
+  <p-button 
+    icon="pi pi-microphone"
+    [rounded]="true"
+    size="large"
+    class="fab"
+    (onClick)="openRecordingDialog()"
+    pTooltip="Gravar áudio"
+    tooltipPosition="left">
+  </p-button>
+  
+  <!-- Toast Messages -->
+  <p-toast position="top-right"></p-toast>
+</div>

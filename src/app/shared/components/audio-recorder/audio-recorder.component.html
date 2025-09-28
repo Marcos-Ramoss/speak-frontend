@@ -1,0 +1,46 @@
+<div class="audio-recorder-container">
+  <!-- Timer Display -->
+  <div class="timer-display">
+    <div class="timer-circle" [class.recording]="recordingState.isRecording">
+      <span class="timer-text">{{ formattedTime }}s</span>
+    </div>
+    <p-progressBar 
+      *ngIf="recordingState.isRecording"
+      [value]="progressValue" 
+      [showValue]="false"
+      class="progress-ring">
+    </p-progressBar>
+  </div>
+  
+  <!-- Waveform Visualizer -->
+  <div class="waveform-container">
+    <canvas #waveformCanvas width="350" height="80"></canvas>
+    <div *ngIf="!recordingState.isRecording" class="waveform-placeholder">
+      <i class="pi pi-volume-up"></i>
+      <span>Pressione o botão para iniciar a gravação</span>
+    </div>
+  </div>
+  
+  <!-- Controls -->
+  <div class="controls">
+    <p-button 
+      *ngIf="recordingState.isRecording"
+      icon="pi pi-trash"
+      [text]="true"
+      [rounded]="true"
+      severity="secondary"
+      (onClick)="cancelRecording()"
+      class="cancel-btn"
+      pTooltip="Cancelar gravação">
+    </p-button>
+    
+    <p-button 
+      [icon]="recordingState.isRecording ? 'pi pi-stop' : 'pi pi-microphone'"
+      [rounded]="true"
+      [class]="'record-btn ' + (recordingState.isRecording ? 'recording' : '')"
+      (onClick)="toggleRecording()"
+      size="large"
+      [pTooltip]="recordingState.isRecording ? 'Parar gravação' : 'Iniciar gravação'">
+    </p-button>
+  </div>
+</div>

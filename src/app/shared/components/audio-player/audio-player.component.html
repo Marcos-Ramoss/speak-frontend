@@ -1,0 +1,61 @@
+<div class="audio-player">
+  <div class="player-main">
+    <!-- Play/Pause Button -->
+    <p-button 
+      [icon]="isLoading ? 'pi pi-spin pi-spinner' : (isPlaying ? 'pi pi-pause' : 'pi pi-play')"
+      [rounded]="true"
+      (onClick)="togglePlayPause()"
+      [disabled]="isLoading"
+      class="play-btn"
+      pTooltip="{{ isPlaying ? 'Pausar' : 'Reproduzir' }}">
+    </p-button>
+    
+    <!-- Progress and Time -->
+    <div class="player-content">
+      <div class="progress-container">
+        <p-slider 
+          [(ngModel)]="progress"
+          (onSlideEnd)="seek($event)"
+          [disabled]="isLoading || duration === 0"
+          class="progress-slider">
+        </p-slider>
+      </div>
+      
+      <div class="time-display">
+        <span class="current-time">{{ formatTime(currentTime) }}</span>
+        <span class="duration">{{ formatTime(duration) }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Volume Controls -->
+  <div *ngIf="showControls" class="volume-controls">
+    <p-button 
+      [icon]="isMuted ? 'pi pi-volume-off' : 'pi pi-volume-up'"
+      [text]="true"
+      (onClick)="toggleMute()"
+      class="volume-btn"
+      pTooltip="{{ isMuted ? 'Ativar som' : 'Silenciar' }}">
+    </p-button>
+    
+    <p-slider 
+      [(ngModel)]="volume"
+      (onSlideEnd)="changeVolume($event)"
+      [max]="100"
+      [min]="0"
+      class="volume-slider">
+    </p-slider>
+  </div>
+  
+  <!-- Additional Controls -->
+  <div *ngIf="showControls" class="additional-controls">
+    <p-button 
+      icon="pi pi-stop"
+      [text]="true"
+      (onClick)="stop()"
+      [disabled]="!isPlaying && currentTime === 0"
+      class="control-btn"
+      pTooltip="Parar">
+    </p-button>
+  </div>
+</div>

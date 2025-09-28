@@ -1,0 +1,68 @@
+<header class="app-header">
+  <div class="header-container">
+    <!-- Logo -->
+    <div class="logo-section">
+      <a routerLink="/" class="logo-link">
+        <i class="pi pi-volume-up logo-icon"></i>
+        <span class="logo-text">VozSocial</span>
+      </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">
+        <i class="pi pi-home"></i>
+        <span>Início</span>
+      </a>
+      <a routerLink="/trending" routerLinkActive="active" class="nav-link">
+        <i class="pi pi-chart-line"></i>
+        <span>Trending</span>
+      </a>
+      <a routerLink="/discover" routerLinkActive="active" class="nav-link">
+        <i class="pi pi-compass"></i>
+        <span>Descobrir</span>
+      </a>
+    </nav>
+
+    <!-- User Section -->
+    <div class="user-section">
+      <div *ngIf="usuarioAtual" class="user-info">
+        <p-avatar 
+          [image]="userAvatarUrl"
+          [label]="!userAvatarUrl ? userInitials : ''"
+          size="large"
+          shape="circle"
+          class="user-avatar"
+          (click)="userMenu.toggle($event)"
+          [style]="{ cursor: 'pointer' }">
+        </p-avatar>
+        
+        <div class="user-details">
+          <span class="user-name">{{ usuarioAtual.nome }}</span>
+          <span class="user-username">@{{ usuarioAtual.nomeUsuario }}</span>
+        </div>
+        
+        <p-button 
+          icon="pi pi-angle-down"
+          [text]="true"
+          class="user-menu-btn"
+          (click)="userMenu.toggle($event)">
+        </p-button>
+        
+        <p-menu #userMenu [model]="userMenuItems" [popup]="true"></p-menu>
+      </div>
+      
+      <div *ngIf="!usuarioAtual" class="auth-buttons">
+        <p-button 
+          label="Entrar"
+          [outlined]="true"
+          size="small">
+        </p-button>
+        <p-button 
+          label="Cadastrar"
+          size="small">
+        </p-button>
+      </div>
+    </div>
+  </div>
+</header>

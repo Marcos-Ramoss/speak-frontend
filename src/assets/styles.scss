@@ -1,0 +1,8 @@
+/* VozSocial - Estilos Globais */
+@use './tailwind.css';
+@use './layout/layout.scss';
+@use 'primeicons/primeicons.css';
+@use './demo/demo.scss';
+
+/* Importar tema customizado do VozSocial */
+@use './vozsocial-theme.scss';

@@ -1,0 +1,161 @@
+<p-dialog 
+  [(visible)]="visible"
+  [header]="dialogHeader"
+  [modal]="true"
+  [closable]="step !== 'processing' && step !== 'posting'"
+  [closeOnEscape]="step !== 'processing' && step !== 'posting'"
+  [dismissableMask]="step !== 'processing' && step !== 'posting'"
+  styleClass="recorder-dialog"
+  [style]="{ width: '90vw', maxWidth: '600px' }">
+
+  <!-- Recording Step -->
+  <div *ngIf="step === 'recording'" class="recording-step">
+    <div class="step-header">
+      <h3>Grave seu áudio</h3>
+      <p>Pressione o botão do microfone para começar a gravar (máximo 15 segundos)</p>
+    </div>
+    
+    <app-audio-recorder
+      (recordingComplete)="onRecordingComplete($event)"
+      (recordingCancelled)="onRecordingCancelled()">
+    </app-audio-recorder>
+    
+    <!-- Voice Filter Selection -->
+    <div class="filter-selection">
+      <h4>Escolha o tipo de voz:</h4>
+      <div class="filter-options">
+        <div *ngFor="let option of filterOptions" class="filter-option">
+          <p-radioButton 
+            [inputId]="option.value"
+            name="tipoFiltro"
+            [value]="option.value"
+            [(ngModel)]="tipoFiltroVoz">
+          </p-radioButton>
+          <label [for]="option.value" class="filter-label">
+            <i class="pi" [class]="option.icon"></i>
+            <span>{{ option.label }}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Processing Step -->
+  <div *ngIf="step === 'processing'" class="processing-step">
+    <div class="processing-content">
+      <div class="processing-spinner">
+        <i class="pi pi-spin pi-spinner"></i>
+      </div>
+      <h3>Processando áudio...</h3>
+      <p>Aplicando filtros e gerando transcrição</p>
+      <div class="processing-steps">
+        <div class="processing-step-item">
+          <i class="pi pi-check-circle"></i>
+          <span>Áudio recebido</span>
+        </div>
+        <div class="processing-step-item active">
+          <i class="pi pi-spin pi-spinner"></i>
+          <span>Aplicando filtro de voz</span>
+        </div>
+        <div class="processing-step-item">
+          <i class="pi pi-circle"></i>
+          <span>Gerando transcrição</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview Step -->
+  <div *ngIf="step === 'preview'" class="preview-step">
+    <div class="step-header">
+      <h3>Visualizar post</h3>
+      <p>Revise seu post antes de publicar</p>
+    </div>
+    
+    <!-- Content Input -->
+    <div class="content-input">
+      <label for="conteudo">Adicione uma descrição (opcional):</label>
+      <textarea
+        id="conteudo"
+        [(ngModel)]="conteudo"
+        [maxlength]="maxContentLength"
+        rows="3"
+        placeholder="O que você está pensando?"
+        class="content-textarea">
+      </textarea>
+      <div class="character-count" [class.limit-reached]="contentLength >= maxContentLength">
+        {{ contentLength }}/{{ maxContentLength }}
+      </div>
+    </div>
+    
+    <!-- Audio Preview -->
+    <div class="audio-preview">
+      <h4>Áudio processado:</h4>
+      <app-audio-player 
+        *ngIf="processedAudioData"
+        [audioUrl]="processedAudioData"
+        [showControls]="true">
+      </app-audio-player>
+    </div>
+    
+    <!-- Transcription -->
+    <div *ngIf="transcricao" class="transcription-preview">
+      <h4>Transcrição:</h4>
+      <div class="transcription-content">
+        <i class="pi pi-file-text"></i>
+        <p>{{ transcricao }}</p>
+      </div>
+    </div>
+    
+    <!-- Filter Info -->
+    <div class="filter-info">
+      <div class="filter-badge" [class]="'filter-' + tipoFiltroVoz.toLowerCase()">
+        <i class="pi" [class]="tipoFiltroVoz === 'ROBOTICO' ? 'pi-cog' : 'pi-user'"></i>
+        <span>{{ tipoFiltroVoz === 'ROBOTICO' ? 'Voz Robótica' : 'Voz Natural' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Posting Step -->
+  <div *ngIf="step === 'posting'" class="posting-step">
+    <div class="posting-content">
+      <div class="posting-spinner">
+        <i class="pi pi-spin pi-spinner"></i>
+      </div>
+      <h3>Publicando post...</h3>
+      <p>Aguarde enquanto seu post é publicado</p>
+    </div>
+  </div>
+
+  <!-- Dialog Footer -->
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <!-- Recording Step Footer -->
+      <div *ngIf="step === 'recording'" class="footer-actions">
+        <p-button 
+          label="Cancelar"
+          icon="pi pi-times"
+          [text]="true"
+          (onClick)="closeDialog()">
+        </p-button>
+      </div>
+      
+      <!-- Preview Step Footer -->
+      <div *ngIf="step === 'preview'" class="footer-actions">
+        <p-button 
+          label="Gravar Novamente"
+          icon="pi pi-refresh"
+          [outlined]="true"
+          (onClick)="reRecord()">
+        </p-button>
+        
+        <p-button 
+          label="Publicar"
+          icon="pi pi-send"
+          [disabled]="!canPost"
+          (onClick)="createPost()">
+        </p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
